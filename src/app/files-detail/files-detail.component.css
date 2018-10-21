@@ -1,0 +1,22 @@
+.job {
+  display: flex;
+  margin: 5px;
+  align-items: center;
+}
+
+p {
+  margin: 0 5px 0 0;
+}
+
+.processbar {
+  width: 300px;
+}
+
+.job-processbar {
+  width: 30%;
+  margin-right:5px;
+}
+
+.tab-container {
+  margin: 5px;
+}

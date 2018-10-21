@@ -1,0 +1,19 @@
+<mat-card>
+  <p>筛选</p>
+  <div class="cond">
+    <mat-checkbox>我参与的</mat-checkbox>
+  </div>
+</mat-card>
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        SkillData.txt（承）
+      </mat-panel-title>
+      <mat-panel-description>
+        <app-processbar [data]="[{value:45,color:'#20A0FF'}]" [max]="100"></app-processbar>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-files-detail></app-files-detail>
+  </mat-expansion-panel>
+</mat-accordion>

@@ -1,0 +1,19 @@
+<mat-card class="card">
+  <mat-card-title style="text-align:center">
+    お前はもう死んでいる
+  </mat-card-title>
+  <mat-card-content>
+    <form class="container" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <input matInput placeholder="Username" formControlName="username">
+        <mat-error *ngIf="username.invalid">请输入用户名</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Password" type="password" formControlName="password">
+        <mat-error *ngIf="password.invalid">请输入密码</mat-error>
+      </mat-form-field>
+      <button type="submit" [disabled]="!loginForm.valid" mat-raised-button color="primary">登入</button>
+      <button mat-raised-button color="accent" routerLink="/reg">注册</button>
+    </form>
+  </mat-card-content>
+</mat-card>

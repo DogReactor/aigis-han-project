@@ -1,0 +1,21 @@
+.main-container {
+  flex: 1;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidenav {
+  width: 15%;
+}
+
+.content-container {
+  padding: 50px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

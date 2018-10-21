@@ -1,0 +1,29 @@
+<mat-card class="drag-area" (drop)='onFileDrop($event)'>
+  <p *ngIf="!file">请将文件拖曳到这里</p>
+  <div *ngIf="file">
+    <p>文件名：{{file.name}} <button mat-button (click)="download()">生成规则文件</button></p>
+    <p>※有自动保存功能，不用担心手贱</p>
+  </div>
+</mat-card>
+
+<table mat-table [dataSource]="textList" class="table">
+  <ng-container matColumnDef="no">
+    <th mat-header-cell *matHeaderCellDef> No </th>
+    <td mat-cell *matCellDef="let text"> {{text[0].toString()}} </td>
+  </ng-container>
+  <ng-container matColumnDef="origin">
+    <th mat-header-cell *matHeaderCellDef> 原文 </th>
+    <td mat-cell *matCellDef="let text">
+      <p style="margin:0" *ngFor="let t of text[1].split('\n')">{{ t }} </p>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="trans">
+    <th mat-header-cell *matHeaderCellDef> 译文 </th>
+    <td mat-cell *matCellDef="let text">
+      <textarea class="full-width" matInput [id]="'textarea-' + text[0]" [(ngModel)]='text[2]' cdkTextareaAutosize (change)="onTextInput()"
+        (keydown)="onKeyDown($event,text[0])"></textarea>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

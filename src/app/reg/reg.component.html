@@ -1,0 +1,31 @@
+<mat-card class="card">
+  <mat-card-title>
+    和我签订契约，成为魔法少女吧！
+  </mat-card-title>
+  <mat-card-content>
+    <form class="container" [formGroup]="regForm" (ngSubmit)="onSubmit()">
+
+      <mat-form-field>
+        <input matInput placeholder="Username" formControlName="username">
+        <mat-error *ngIf="regForm.get('username').invalid">请输入用户名</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Password" type="password" formControlName="password">
+        <mat-error *ngIf="regForm.get('password').invalid">请输入密码</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="E-mail" type="email" formControlName="mail">
+        <mat-error *ngIf="regForm.get('mail').invalid">请输入正确的邮箱</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Nickname" formControlName="nickname">
+        <mat-error *ngIf="regForm.get('nickname').invalid">请输入昵称</mat-error>
+      </mat-form-field>
+
+      <button type="submit" [disabled]="!regForm.valid" mat-raised-button color="primary">注册</button>
+    </form>
+  </mat-card-content>
+</mat-card>

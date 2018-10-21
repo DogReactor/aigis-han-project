@@ -1,0 +1,9 @@
+:host {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+}
+
+a {
+  padding: 10px 0 10px 0;
+}

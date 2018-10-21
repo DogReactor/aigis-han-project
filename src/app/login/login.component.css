@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  justify-content: space-around;
+}
+
+.container {
+  display: flex;
+  padding: 50px;
+  flex-flow: column;
+}
+
+button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
