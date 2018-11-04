@@ -1,16 +1,13 @@
-<h1>进度</h1>
-<app-processbar [max]="100" [data]="data" [desc]="true"></app-processbar>
+<h2>进度</h2>
+<app-processbar [max]="file.sectionCount" [data]="data" [desc]="true"></app-processbar>
 <mat-tab-group>
-  <mat-tab label="翻译">
+  <mat-tab label="承包">
     <div class="tab-container">
       <div class="job">
-        <p>我承包的</p>
-        <app-processbar class="job-processbar" [max]="50" [data]="[{value:10,color:'#20A0FF'}]"></app-processbar>
-        <button mat-raised-button color="accent">承包</button>
+        <p>我承包了 {{myContractor}}</p>
+        <button mat-raised-button color="accent" (click)="openAllocateDialog()">承包</button>
       </div>
-      <button mat-raised-button routerLink="/editor">进入编辑器</button>
     </div>
   </mat-tab>
-  <mat-tab label="校对"></mat-tab>
-  <mat-tab label="发布"></mat-tab>
+  <mat-tab label="校对/润色"></mat-tab>
 </mat-tab-group>

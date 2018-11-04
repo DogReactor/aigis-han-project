@@ -1,11 +1,3 @@
-<mat-card class="drag-area" (drop)='onFileDrop($event)'>
-  <p *ngIf="!file">请将文件拖曳到这里</p>
-  <div *ngIf="file">
-    <p>文件名：{{file.name}} <button mat-button (click)="download()">生成规则文件</button></p>
-    <p>※有自动保存功能，不用担心手贱</p>
-  </div>
-</mat-card>
-
 <table mat-table [dataSource]="textList" class="table">
   <ng-container matColumnDef="no">
     <th mat-header-cell *matHeaderCellDef> No </th>

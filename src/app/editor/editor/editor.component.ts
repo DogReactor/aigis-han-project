@@ -1,14 +1,18 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { saveAs } from 'file-saver';
 import { MatSnackBar } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-editor',
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.css']
 })
-export class EditorComponent {
-  constructor(private snackBar: MatSnackBar) {
+export class EditorComponent implements OnInit {
+  constructor(
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+  ) {
 
   }
   textList = [];
@@ -17,13 +21,11 @@ export class EditorComponent {
   onFileSelect(event) {
     console.log(event);
   }
-  @HostListener('document:dragleave', ['$event'])
-  @HostListener('document:dragenter', ['$event'])
-  @HostListener('document:dragover', ['$event'])
-  @HostListener('document:drop', ['$event'])
-  onDrage(e) {
-    e.preventDefault();
+
+  ngOnInit(): void {
+    console.log(this.route.snapshot.paramMap.get('fileName'));
   }
+
   onFileDrop(e: DragEvent) {
     const files = e.dataTransfer.files;
 
@@ -99,10 +101,6 @@ export class EditorComponent {
       s += `${t[1].replace(/\n/g, '\\n')}\t${t[2].replace(/\n/g, '\\n')}\r\n`;
     }
     return s;
-  }
-  download() {
-    const blob = new Blob([this.genText()], { type: 'text/plain;charset=utf-8' });
-    saveAs(blob, this.file.name);
   }
   compatibility() {
     for (const t of this.textList) {

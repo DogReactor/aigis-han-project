@@ -25,9 +25,11 @@ import { ProcessbarComponent } from './processbar/processbar.component';
 import { EditorModule } from './editor/editor.module';
 import { LoginComponent } from './login/login.component';
 import { MypageComponent } from './mypage/mypage.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { MatFormFieldModule, MatInputModule, MatDialogModule, MatOptionModule, MatSelectModule } from '@angular/material';
 import { RegComponent } from './reg/reg.component';
+import { HttpClientModule } from '@angular/common/http';
+import { AllocateDialogComponent } from './files-detail/allocate.component';
 
 @NgModule({
   declarations: [
@@ -41,13 +43,16 @@ import { RegComponent } from './reg/reg.component';
     ProcessbarComponent,
     LoginComponent,
     MypageComponent,
-    RegComponent
+    RegComponent,
+    AllocateDialogComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    HttpClientModule,
     EditorModule,
+    FormsModule,
     MatSidenavModule,
     MatToolbarModule,
     MatButtonModule,
@@ -60,6 +65,12 @@ import { RegComponent } from './reg/reg.component';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDialogModule,
+    MatOptionModule,
+    MatSelectModule,
+  ],
+  entryComponents: [
+    AllocateDialogComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

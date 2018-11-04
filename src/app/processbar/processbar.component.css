@@ -1,7 +1,7 @@
 .pipe {
-  width: 100%;
-  height: 100%;
-  border: 1px solid black;
+  height: 15px;
+  flex: 1;
+  border:1px solid black;
 }
 
 .content {
@@ -33,4 +33,16 @@
 
 .cond {
   display: flex;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+  width:50%;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left:10px;
 }

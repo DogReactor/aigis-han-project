@@ -1,8 +1,11 @@
-<div class="pipe">
-  <div *ngFor="let obj of data" class="content" [ngStyle]="{'width':(obj.value/max*100).toString()+'%','background-color':obj.color}">
-    <span>{{obj.value}}/{{max}}</span>
+<div *ngFor="let obj of data" class="container">
+  <div class="pipe">
+    <div class="content" [ngStyle]="{'width':(obj.value/max*100).toString()+'%','background-color':obj.color}">
+    </div>
   </div>
+  <p>{{obj.value}}/{{max}}</p>
 </div>
+
 <div *ngIf="desc" class="legend-content">
   <div *ngFor="let obj of data" class="legend">
     <div class="legend-color" [ngStyle]="{'background-color':obj.color}"></div>

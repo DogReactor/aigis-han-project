@@ -1,0 +1,22 @@
+.panel-title {
+  width: 30%;
+}
+
+.more-btn {
+  margin-top: 5px;
+  width: 100%;
+}
+
+.cond {
+  display: flex;
+}
+
+.cond-item {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+mat-card{
+  margin-top:5px;
+  margin-bottom:5px;
+}

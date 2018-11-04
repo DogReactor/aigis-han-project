@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { UsersService } from '../users.service';
 
 @Component({
   selector: 'app-login',
@@ -20,10 +21,12 @@ export class LoginComponent implements OnInit {
     return this.loginForm.get('password');
   }
 
-  onSubmit() {
+  async onSubmit() {
     console.log(this.loginForm.value);
+    const result = await this.usersService.login(this.loginForm.value);
+    console.log(result);
   }
-  constructor() { }
+  constructor(private usersService: UsersService) { }
 
   ngOnInit() {
   }

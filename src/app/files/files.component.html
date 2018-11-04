@@ -1,19 +1,48 @@
 <mat-card>
-  <p>筛选</p>
-  <div class="cond">
-    <mat-checkbox>我参与的</mat-checkbox>
+  <mat-card-header>
+    <mat-card-title>我的翻译进度</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <app-processbar [data]="[{value:myTranslated,color:'#20A0FF'}]" [max]="myTotal"></app-processbar>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button routerLink="/editor">进入编辑器</button>
+  </mat-card-actions>
+</mat-card>
+
+<mat-card class="cond">
+  <div class="cond-item">
+    <p>筛选</p>
+    <mat-form-field>
+      <input matInput placeholder="文件名" (keyup)="searchKeyword$.next($event.target.value)" [value]="keyword">
+    </mat-form-field>
+  </div>
+  <div class="cond-item">
+    <p>排序</p>
+    <mat-form-field>
+      <mat-select [(value)]="sort" (selectionChange)="onSortSelectionChanged($event)">
+        <mat-option value="">默认</mat-option>
+        <mat-option value="update">更新时间</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
 </mat-card>
+
 <mat-accordion>
-  <mat-expansion-panel>
+  <mat-expansion-panel *ngFor="let file of filesService.files;index as i">
     <mat-expansion-panel-header>
       <mat-panel-title>
-        SkillData.txt（承）
+        <div style="width:30%">
+          {{file.name}}
+        </div>
+        <app-processbar [data]="[{value:file.translated,color:'#20A0FF'}]" [max]="file.sectionCount"></app-processbar>
       </mat-panel-title>
-      <mat-panel-description>
-        <app-processbar [data]="[{value:45,color:'#20A0FF'}]" [max]="100"></app-processbar>
-      </mat-panel-description>
     </mat-expansion-panel-header>
-    <app-files-detail></app-files-detail>
+
+    <app-files-detail [file]='file' [index]='i'></app-files-detail>
+
   </mat-expansion-panel>
 </mat-accordion>
+
+<button mat-raised-button class="more-btn" (click)="loadMore()" [attr.disabled]="disable ? '' : null">{{nomore ?
+  '没有更多了' : '更多'}}</button>
