@@ -1,6 +1,10 @@
 <h1 mat-dialog-title>承包</h1>
 <div mat-dialog-content>
-  <p>你要承包多少 <button mat-raised-button (click)="allocateAll()">承包所有</button></p>
+  <p>你要承包多少
+    <button mat-raised-button (click)="allocateAll()">
+      承包{{data.maxCount > 100 ? '100条' : '所有'}}
+    </button>
+  </p>
   <div style="display:flex;">
     <mat-form-field>
       <input matInput [(ngModel)]="allocateCount" />

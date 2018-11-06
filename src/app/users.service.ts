@@ -8,7 +8,14 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class UsersService {
-  public token = null;
+  private token = null;
+  public get Token() {
+    return this.token;
+  }
+  public set Token(value) {
+    this.token = value;
+    localStorage.setItem('token', value);
+  }
   public user: User = null;
   constructor(
     private http: HttpClient,
@@ -19,19 +26,23 @@ export class UsersService {
       this.getUserInfo();
     }
   }
+  async reg(regDto) {
+    const requestUrl = Constants.GenRequestURL(
+      '/users'
+    );
+    const result = await this.http.post(requestUrl, regDto).toPromise();
+    this.Token = result['message'];
+    await this.getUserInfo();
+    return <string>result['message'];
+  }
   async login(loginDto: {}) {
     const requestUrl = Constants.GenRequestURL(
       '/users/token'
     );
-    try {
-      const result = await this.http.post(requestUrl, loginDto).toPromise();
-      this.token = result['message'];
-      localStorage.setItem('token', this.token);
-      this.getUserInfo();
-      return <string>result['message'];
-    } catch (err) {
-      return null;
-    }
+    const result = await this.http.post(requestUrl, loginDto).toPromise();
+    this.Token = result['message'];
+    await this.getUserInfo();
+    return <string>result['message'];
   }
   async getUserInfo() {
     const requestUrl = Constants.GenRequestURL(
@@ -42,7 +53,6 @@ export class UsersService {
     );
     try {
       this.user = await this.http.get<User>(requestUrl).toPromise();
-      console.log(this.user);
     } catch (err) {
       console.log(err);
       this.router.navigateByUrl('/login');

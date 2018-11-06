@@ -30,6 +30,7 @@ import { MatFormFieldModule, MatInputModule, MatDialogModule, MatOptionModule, M
 import { RegComponent } from './reg/reg.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AllocateDialogComponent } from './files-detail/allocate.component';
+import { PreviewDialogComponent } from './files-detail/preview.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { AllocateDialogComponent } from './files-detail/allocate.component';
     MypageComponent,
     RegComponent,
     AllocateDialogComponent,
+    PreviewDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,6 +73,7 @@ import { AllocateDialogComponent } from './files-detail/allocate.component';
   ],
   entryComponents: [
     AllocateDialogComponent,
+    PreviewDialogComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

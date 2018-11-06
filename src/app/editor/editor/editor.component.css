@@ -12,3 +12,11 @@
 .full-width {
   width: 100%;
 }
+
+.card {
+  position: sticky;
+  top: 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items:center;
+}

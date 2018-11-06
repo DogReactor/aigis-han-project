@@ -23,6 +23,8 @@ export class FilesComponent implements OnInit {
       distinctUntilChanged(),
     ).subscribe(async v => {
       filesService.Keyword = v;
+      this.nomore = false;
+      this.disable = false;
     });
 
     this.keyword = filesService.Keyword;
@@ -34,11 +36,13 @@ export class FilesComponent implements OnInit {
     const r = await this.sectionsService.getAllocatedSectionsCount() as any;
     r.forEach(v => {
       this.myTotal += v.count;
-      if (v._id === true) { this.myTranslated = v.count; }
+      if (v._id === 1) { this.myTranslated = v.count; }
     });
   }
   onSortSelectionChanged(event) {
     this.filesService.Sort = event.value;
+    this.nomore = false;
+    this.disable = false;
   }
   async loadMore() {
     this.disable = true;

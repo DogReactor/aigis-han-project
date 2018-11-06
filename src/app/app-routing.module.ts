@@ -8,7 +8,7 @@ import { MypageComponent } from './mypage/mypage.component';
 import { RegComponent } from './reg/reg.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: '/files', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'files', component: FilesComponent },
   { path: 'editor', component: EditorComponent },

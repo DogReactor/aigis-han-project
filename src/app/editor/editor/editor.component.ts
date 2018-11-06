@@ -2,6 +2,8 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { saveAs } from 'file-saver';
 import { MatSnackBar } from '@angular/material';
 import { ActivatedRoute } from '@angular/router';
+import { EditorService } from '../editor.service';
+import { SectionStatus } from '../section.model';
 
 @Component({
   selector: 'app-editor',
@@ -9,102 +11,46 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./editor.component.css']
 })
 export class EditorComponent implements OnInit {
+  type = SectionStatus.Translated; // Todo
+  showAll = false;
   constructor(
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
+    private editorService: EditorService,
   ) {
 
   }
   textList = [];
-  displayedColumns = ['no', 'origin', 'trans'];
+  displayedColumns = ['desc', 'origin', 'trans'];
   file: File = undefined;
-  onFileSelect(event) {
-    console.log(event);
+
+  async ngOnInit() {
+    const rawSections = await this.editorService.getSections(this.showAll ? 4 : 0);
+    if (!rawSections) { return; }
+    const textList = this.editorService.genTranslationList(rawSections);
+    this.textList = textList;
   }
-
-  ngOnInit(): void {
-    console.log(this.route.snapshot.paramMap.get('fileName'));
-  }
-
-  onFileDrop(e: DragEvent) {
-    const files = e.dataTransfer.files;
-
-    if (files.length !== 1) {
-      this.snackBar.open('暂不支持多文件', '', { verticalPosition: 'top' }); return;
-    }
-    const file = files[0];
-    if (file.type !== 'text/plain') {
-      this.snackBar.open('这不是TXT谢谢', '', { verticalPosition: 'top' }); return;
-    }
-
-    const reader = new FileReader();
-
-    const self = this;
-
-    const saved = localStorage.getItem(file.name);
-    if (saved) {
-      try {
-        const savedO = JSON.parse(saved);
-        if (savedO.lastModified > file.lastModified) {
-          this.textList = savedO.data;
-          this.compatibility();
-          self.file = file;
-          return;
-        }
-      } catch (ex) { console.log(ex); }
-    }
-
-    reader.onload = function (f) {
-      const r = self.readFile(<string>this.result);
-      self.textList = r;
-      self.file = file;
+  onTextareaBlur(section, text) {
+    if (!text) { return; }
+    section.notCommited = {
+      text,
+      sectionId: section.sectionId,
+      type: this.type,
+      originId: section.translatedCommit ? section.translatedCommit._id : section.rawCommit._id,
+      polished: false
     };
-    reader.readAsText(file);
+    this.editorService.addCommit(section.notCommited);
   }
-  readFile(text: string) {
-    const lines = text.split('\r\n');
-    const data = [];
-    for (let i = 0; i < lines.length; i++) {
-      const ts = lines[i];
-      if (ts === '') { continue; }
-      const tsA = ts.split('\t');
-      tsA[0] = tsA[0].replace(/\\n/g, '\n');
-      if (tsA[1]) {
-        tsA[1] = tsA[1].replace(/\\n/g, '\n');
-      }
-      const d = [i + 1, tsA[0] || '', tsA[1] || ''];
-      data.push(d);
-    }
-    return data;
+  async commit() {
+    await this.editorService.commit();
+    this.snackBar.open('保存成功', '', {
+      duration: 3000,
+      verticalPosition: 'top',
+    });
+    this.ngOnInit();
   }
-  onTextInput() {
-    this.saveText();
-  }
-  onKeyDown(event: KeyboardEvent, index) {
-    if (event.ctrlKey === true && event.code === 'Enter') {
-      const next = document.getElementById(`textarea-${index + 1}`);
-      if (next) {
-        next.focus();
-      }
-    }
-  }
-  saveText() {
-    localStorage.setItem(this.file.name, JSON.stringify({
-      lastModified: (new Date()).getTime(),
-      data: this.textList
-    }));
-  }
-  genText() {
-    let s = '';
-    for (const t of this.textList) {
-      if (t[2] === '') { continue; }
-      s += `${t[1].replace(/\n/g, '\\n')}\t${t[2].replace(/\n/g, '\\n')}\r\n`;
-    }
-    return s;
-  }
-  compatibility() {
-    for (const t of this.textList) {
-      t[1] = t[1].replace(/<br>/g, '\n');
-    }
+  async onShowAllClick(isShowAll) {
+    this.showAll = isShowAll;
+    await this.ngOnInit();
   }
 }

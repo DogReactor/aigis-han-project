@@ -4,6 +4,7 @@ import { UsersService } from '../users.service';
 import { FilesService } from '../files.service';
 import { MatDialog } from '@angular/material';
 import { AllocateDialogComponent } from './allocate.component';
+import { PreviewDialogComponent } from './preview.component';
 
 @Component({
   selector: 'app-files-detail',
@@ -42,6 +43,14 @@ export class FilesDetailComponent implements OnInit {
     this.dialog.open(AllocateDialogComponent, {
       width: '250px',
       data: { index: this.index, maxCount: this.file.sectionCount },
+    });
+  }
+  async openPreviewDialog() {
+    this.dialog.open(PreviewDialogComponent, {
+      width: '70%',
+      data: {
+        fileID: this.file._id,
+      },
     });
   }
 

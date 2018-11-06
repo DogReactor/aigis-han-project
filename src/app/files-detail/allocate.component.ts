@@ -23,7 +23,7 @@ export class AllocateDialogComponent {
         this.dialogRef.close();
     }
     allocateAll() {
-        this.allocateCount = this.data.maxCount;
+        this.allocateCount = this.data.maxCount > 100 ? 100 : this.data.maxCount;
     }
 
 }

@@ -7,6 +7,7 @@ import { Constants } from './constant';
 import { Router } from '@angular/router';
 import { UsersService } from './users.service';
 import * as Rx from 'rxjs';
+import { Section } from './editor/section.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class FilesService {
   set Keyword(value) {
     if (this.keyword === value) { return; }
     this.keyword = value;
+    localStorage.setItem('keyword', value);
     this.getFiles(false, true);
   }
   get Keyword() { return this.keyword; }
@@ -33,10 +35,10 @@ export class FilesService {
   limit = 10;
   noMoreSubject = new Rx.Subject();
   constructor(private http: HttpClient, private router: Router, private usersService: UsersService) {
-
+    this.keyword = localStorage.getItem('keyword') || '';
   }
   async getFiles(update: boolean = false, force = false) {
-    if (!this.usersService.token) {
+    if (!this.usersService.Token) {
       this.router.navigateByUrl('/login');
       return;
     }
@@ -49,7 +51,7 @@ export class FilesService {
     const requestUrl = Constants.GenRequestURL(
       '/assets/files',
       {
-        token: this.usersService.token,
+        token: this.usersService.Token,
         reg: this.keyword,
         skip: this.page * this.limit,
         limit: this.limit,
@@ -71,7 +73,19 @@ export class FilesService {
     }
     return true;
   }
-
+  async getSectionsByFiles(fileId: string) {
+    const requestUrl = Constants.GenRequestURL(
+      `/assets/file/${fileId}/sections`,
+      {
+        token: this.usersService.Token,
+        contracted: 0,
+        skip: 0,
+        limit: 0,
+      }
+    );
+    const sections = await this.http.get<Section[]>(requestUrl).toPromise();
+    return sections;
+  }
   async allocateSection(index: number, count: number) {
     const file = this.files[index];
     if (!file) { throw new Error('no such file'); }
@@ -79,7 +93,7 @@ export class FilesService {
     const requestUrl = Constants.GenRequestURL(
       `/assets/file/${file._id}/contract`,
       {
-        token: this.usersService.token
+        token: this.usersService.Token
       }
     );
 

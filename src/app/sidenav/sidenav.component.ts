@@ -15,7 +15,8 @@ export class SidenavComponent implements OnInit {
   ngOnInit() {
   }
   mypage() {
-    if (this.usersService.token) {
+    if (this.usersService.Token) {
+      this.router.navigateByUrl('/mypage');
     } else {
       this.router.navigateByUrl('/login');
     }

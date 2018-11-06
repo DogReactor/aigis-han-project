@@ -10,13 +10,13 @@ import { Constants } from './constant';
 export class SectionsService {
   constructor(private http: HttpClient, private usersService: UsersService, private router: Router) { }
   async getAllocatedSectionsCount() {
-    if (!this.usersService.token) {
+    if (!this.usersService.Token) {
       this.router.navigateByUrl('/login');
     }
     const requestURL = Constants.GenRequestURL(
       '/assets/sections/count',
       {
-        token: this.usersService.token
+        token: this.usersService.Token
       }
     );
     try {
