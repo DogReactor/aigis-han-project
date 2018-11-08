@@ -16,8 +16,11 @@ export class FilesComponent implements OnInit {
   sort = '';
   myTranslated = 0;
   myTotal = 0;
-  private searchKeyword$ = new Subject<string>();
-  constructor(private filesService: FilesService, private sectionsService: SectionsService) {
+  public searchKeyword$ = new Subject<string>();
+  constructor(
+    public filesService: FilesService,
+    private sectionsService: SectionsService
+  ) {
     this.searchKeyword$.pipe(
       debounceTime(400),
       distinctUntilChanged(),
