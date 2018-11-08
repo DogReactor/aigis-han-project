@@ -8,7 +8,7 @@ import { UsersService } from '../users.service';
 })
 export class MypageComponent implements OnInit {
 
-  constructor(private usersService: UsersService) { }
+  constructor(public usersService: UsersService) { }
 
   ngOnInit() {
   }

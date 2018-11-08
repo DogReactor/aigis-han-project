@@ -16,7 +16,7 @@ export class EditorComponent implements OnInit {
   constructor(
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
-    private editorService: EditorService,
+    public editorService: EditorService,
   ) {
 
   }

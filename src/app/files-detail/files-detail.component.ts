@@ -30,8 +30,8 @@ export class FilesDetailComponent implements OnInit {
     });
     this.myContractor = r ? r.count : 0;
   }
-  private myContractor;
-  private data: any[];
+  public myContractor;
+  public data: any[];
   ngOnInit() {
     this.data = [
       { value: this.file.translated, color: '#20A0FF', desc: '已翻译' },
