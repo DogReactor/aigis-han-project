@@ -1,32 +1,57 @@
 <mat-card class="card">
-  <div>
-    <mat-checkbox [checked]="showAll" (change)="onShowAllClick($event.checked)">显示已翻译过的</mat-checkbox>
+  <p style="font-size:10px;color:gray;">{{typeText[type]}}模式</p>
+  <div class="flex-content">
+    <div>
+      <mat-checkbox [checked]="showAll" (change)="onShowAllClick($event.checked)">显示已完成的</mat-checkbox>
+    </div>
+    <div>
+      <button mat-raised-button color="accent" *ngIf="editorService.notCommited.length > 0" (click)="commit()">提交</button>
+    </div>
   </div>
-  <div>
-    <button mat-raised-button color="accent" *ngIf="editorService.notCommited.length > 0" (click)="commit()">提交</button>
-  </div>
+
 </mat-card>
 
-<table mat-table [dataSource]="textList" class="table">
+<table mat-table [dataSource]="dataSource" class="table">
   <ng-container matColumnDef="desc">
     <th mat-header-cell *matHeaderCellDef> 杂项 </th>
     <td mat-cell *matCellDef="let text">
       <p style="margin:0">{{ text.desc }} </p>
     </td>
   </ng-container>
-  <ng-container matColumnDef="origin">
+  <ng-container matColumnDef="raw">
     <th mat-header-cell *matHeaderCellDef> 原文 </th>
     <td mat-cell *matCellDef="let text">
       <p style="margin:0" *ngFor="let t of text.rawCommit.text.split('\\n')">{{ t }} </p>
     </td>
   </ng-container>
-  <ng-container matColumnDef="trans">
-    <th mat-header-cell *matHeaderCellDef> 译文 </th>
+  <ng-container matColumnDef="origin">
+    <th mat-header-cell *matHeaderCellDef> 基础 </th>
     <td mat-cell *matCellDef="let text">
-      <textarea class="full-width" matInput [value]="text.notCommited?text.notCommited.text:(text.translatedCommit? text.translatedCommit.text:'')"
+      <div style="display:flex; align-items: center">
+        <mat-select placeholder="基础提交" [(value)]="text.originCommit">
+          <mat-select-trigger>
+            <p style="margin:0" *ngFor="let t of getCommitInLeaves(text.leaves, text.originCommit).text.split('\\n')">{{
+              t }} </p>
+          </mat-select-trigger>
+          <ng-container *ngFor="let leaf of text.leaves">
+            <mat-option *ngIf="leaf.type <= type && ((type >= 2 && leaf.type >= 1) || type < 2)" [value]="leaf._id"
+              style="height:100%;">
+              <p style="margin:0" *ngFor="let t of leaf.text.split('\\n')">{{ t }} </p>
+            </mat-option>
+          </ng-container>
+        </mat-select>
+        <button mat-icon-button (click)="onTextareaBlur(text, getCommitInLeaves(text.leaves, text.originCommit).text.replace('\\n','\n'))">
+          > </button>
+      </div>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="modify">
+    <th mat-header-cell *matHeaderCellDef> 编辑 </th>
+    <td mat-cell *matCellDef="let text">
+      <textarea class="full-width" matInput [value]="text.notCommited?.originId === text.originCommit ? text.notCommited.text : ''"
         (blur)="onTextareaBlur(text,$event.target.value)" cdkTextareaAutosize></textarea>
     </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngStyle]="{background:row.notCommited ? '#FFCDD2' : (row.translatedCommit ? '#C8E6C9' : null)}"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngStyle]="{background:row.notCommited?.originId === row.originCommit ? '#FFCDD2' : (row.status >= type ? '#C8E6C9' : null)}"></tr>
 </table>

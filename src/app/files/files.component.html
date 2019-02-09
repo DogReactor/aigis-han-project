@@ -6,7 +6,7 @@
     <app-processbar [data]="[{value:myTranslated,color:'#20A0FF'}]" [max]="myTotal"></app-processbar>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button routerLink="/editor">进入编辑器</button>
+    <button mat-button routerLink="/editor/null">进入编辑器</button>
   </mat-card-actions>
 </mat-card>
 
@@ -26,6 +26,7 @@
       </mat-select>
     </mat-form-field>
   </div>
+  <button mat-button (click)="reloadFileList()">刷新</button>
 </mat-card>
 
 <mat-accordion>

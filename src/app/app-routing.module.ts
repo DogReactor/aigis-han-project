@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/files', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'files', component: FilesComponent },
-  { path: 'editor', component: EditorComponent },
+  { path: 'editor/:id', component: EditorComponent },
   { path: 'login', component: LoginComponent },
   { path: 'mypage', component: MypageComponent },
   { path: 'reg', component: RegComponent }

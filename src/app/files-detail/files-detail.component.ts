@@ -5,6 +5,7 @@ import { FilesService } from '../files.service';
 import { MatDialog } from '@angular/material';
 import { AllocateDialogComponent } from './allocate.component';
 import { PreviewDialogComponent } from './preview.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-files-detail',
@@ -16,6 +17,7 @@ export class FilesDetailComponent implements OnInit {
     private usersService: UsersService,
     private filesService: FilesService,
     private dialog: MatDialog,
+    private router: Router,
   ) { }
 
   _file: File;
@@ -52,6 +54,9 @@ export class FilesDetailComponent implements OnInit {
         fileID: this.file._id,
       },
     });
+  }
+  openEditor() {
+    this.router.navigate(['/editor', this.file._id]);
   }
 
 }

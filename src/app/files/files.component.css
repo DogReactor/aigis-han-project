@@ -9,6 +9,7 @@
 
 .cond {
   display: flex;
+  align-items:center;
 }
 
 .cond-item {

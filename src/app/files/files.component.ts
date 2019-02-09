@@ -42,6 +42,9 @@ export class FilesComponent implements OnInit {
       if (v._id === 1) { this.myTranslated = v.count; }
     });
   }
+  reloadFileList() {
+    this.filesService.getFiles(false, true);
+  }
   onSortSelectionChanged(event) {
     this.filesService.Sort = event.value;
     this.nomore = false;

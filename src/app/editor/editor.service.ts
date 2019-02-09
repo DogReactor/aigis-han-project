@@ -25,7 +25,7 @@ export class EditorService {
       this.notCommited = JSON.parse(localStorage.getItem('notCommited')) || [];
     } catch (err) { }
   }
-  async getSections(filter: number) {
+  async getSectionsByUser(filter: number) {
     if (!this.usersService.Token) { this.router.navigateByUrl('/login'); }
     const requestURL = Constants.GenRequestURL(
       '/assets/sections',
@@ -45,35 +45,39 @@ export class EditorService {
       this.router.navigateByUrl('/login');
     }
   }
-  genTranslationList(rawSections: Section[]) {
-    const list = rawSections.map((section) => {
-      const row: any = {};
-      row.sectionId = section._id;
-      row.desc = section.desc;
-      const rawCommit = Commit.id(section.commits, section.rawCommit);
-      row.rawCommit = rawCommit;
-      const translatedCommit = Commit.findLatestTranslation(section.commits);
-      row.translatedCommit = translatedCommit;
-      const lastCommitId = translatedCommit ? translatedCommit._id : rawCommit._id;
-      const notCommited = this.notCommited.find((commit) => {
-        if (commit.sectionId !== section._id) { return false; }
-        if (commit.type !== SectionStatus.Translated) { return false; }
-        return true;
-      });
-      row.notCommited = notCommited;
-      if (notCommited && notCommited.originId !== lastCommitId) {
-        row.conflict = true;
+  async getSectionsByFile(fileId: string) {
+    if (!this.usersService.Token) { this.router.navigateByUrl('/login'); }
+    const requestURL = Constants.GenRequestURL(
+      '/assets/file/' + fileId + '/sections',
+      {
+        token: this.usersService.Token,
+        skip: 0,
+        limit: 0,
+        contracted: 0
       }
-      return row;
-    });
-    return list;
+    );
+    try {
+      const r = await this.http.get<Section[]>(requestURL).toPromise();
+      return r;
+    } catch (err) {
+      console.error(err);
+      this.router.navigateByUrl('/login');
+    }
   }
   addCommit(commitDto: CommitDto) {
-    const exist = this.notCommited.findIndex(v => v.sectionId === commitDto.sectionId && v.type === commitDto.type);
+    const exist = this.notCommited.findIndex(v => v.sectionId === commitDto.sectionId);
     if (exist !== -1) {
       this.notCommited[exist] = commitDto;
     } else {
       this.notCommited.push(commitDto);
+    }
+    localStorage.setItem('notCommited', JSON.stringify(this.notCommited));
+  }
+  deleteCommit(sectionId: string) {
+    const exist = this.notCommited.findIndex(v => v.sectionId === sectionId);
+    console.log(exist);
+    if (exist >= 0) {
+      this.notCommited.splice(exist, 1);
     }
     localStorage.setItem('notCommited', JSON.stringify(this.notCommited));
   }
@@ -86,9 +90,10 @@ export class EditorService {
       }
     );
     try {
+      const jobs = this.notCommited.filter(v => v.text !== '');
       const result = await this.http.post(requestURL, {
         submitedWork: {
-          works: this.notCommited
+          works: jobs
         },
       }).toPromise();
       console.log(result);

@@ -4,7 +4,7 @@ import { EditorComponent } from './editor/editor.component';
 import { NewlinePipe } from './newline.pipe';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSnackBarModule, MatTableModule, MatCardModule, MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { MatSnackBarModule, MatTableModule, MatCardModule, MatButtonModule, MatCheckboxModule, MatSelectModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { EditorService } from './editor.service';
@@ -21,6 +21,7 @@ import { EditorService } from './editor.service';
     FormsModule,
     MatFormFieldModule,
     MatCheckboxModule,
+    MatSelectModule,
   ],
   declarations: [
     EditorComponent,

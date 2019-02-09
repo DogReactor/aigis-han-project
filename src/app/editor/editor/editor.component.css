@@ -16,7 +16,21 @@
 .card {
   position: sticky;
   top: 0px;
+
+}
+.flex-content{
   display: flex;
   justify-content: space-between;
   align-items:center;
+}
+
+.mat-column-raw{
+  width:30%;
+}
+
+.mat-column-origin {
+  width:30%;
+}
+.origin-panel{
+  height:100%;
 }
