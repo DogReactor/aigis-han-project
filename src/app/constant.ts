@@ -5,9 +5,9 @@ export class Constants {
     public static get BASEPORT() { return 19810; }
     public static GenRequestURL(pathname: string, query?: {}) {
         return url.format({
-                        protocol: 'http',
-                        hostname: this.BASEHOST,
-                        port: this.BASEPORT,
+            //            protocol: 'http',
+            //            hostname: this.BASEHOST,
+            //            port: this.BASEPORT,
             pathname: `/api${pathname}`,
             query
         });

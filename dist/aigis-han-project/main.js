@@ -300,9 +300,9 @@ var Constants = /** @class */ (function () {
     });
     Constants.GenRequestURL = function (pathname, query) {
         return url__WEBPACK_IMPORTED_MODULE_0__["format"]({
-            protocol: 'http',
-            hostname: this.BASEHOST,
-            port: this.BASEPORT,
+            //            protocol: 'http',
+            //            hostname: this.BASEHOST,
+            //            port: this.BASEPORT,
             pathname: "/api" + pathname,
             query: query
         });
